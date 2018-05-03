@@ -50,23 +50,30 @@ var shoppingCart = function() {
 
         var run = 'SELECT * FROM products WHERE item_id=' + answer.ID;
         connection.query(run, function(err, res) {
-          if (answer.COUNT <= res) {
+            console.log(res);
+            console.log(answer);
+            
             for (var i = 0; i < res.length; i++) {
+                if (answer.COUNT <= res[i].stock_quantity) {
                 console.log("We currently have " + res[i].stock_quantity + " " + res[i].product_name + ".");
                 quantity = "" + res[i].stock_quantity + ""
                 console.log("Success! Your order of "+ answer.COUNT + " " + res[i].product_name + " is now being processed.");
-              }
-              
-            //  var run = 'UPDATE products SET stock_quantity = ' + answer.count + ' - ' + quantity + ' WHERE item_id = ' + res[i].product_name;
-            //  connection.query(run, function(err, result) {
+             displayProducts();
+
+             
+        
+            //  var run = 'UPDATEproducts SET stock_quantity = ' + answer.count + ' - ' + quantity + ' WHERE item_id = ' + res[i].product_name;
+            //  connection.query(r un, function(err, result) {
             //    if (err) throw err;
             //      if (err) throw err;
             //      console.log("DEBUG:" + result.affectedRows + " record(s) updated: " + answer.ID + "" + answer.count + " - " + quantity + "");
             //   });
             } else {
               console.log("Requested Quantity Unavailble.");
+              displayProducts();
+    
             }
-            displayProducts();
-        })
+        }
     })
+})
 };
